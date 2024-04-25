@@ -17,6 +17,7 @@ public class AddCommentDto
             Description = dto.Description,
             Post_id = dto.Post_id,
             User_id = dto.User_id,
+            Post = null
         };
     }
 }

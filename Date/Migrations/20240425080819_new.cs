@@ -62,10 +62,11 @@ namespace Date.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone_Number = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Role = table.Column<int>(type: "int", nullable: false)
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    IsVerified = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,7 +85,9 @@ namespace Date.Migrations
                     AuthorId = table.Column<int>(type: "int", nullable: false),
                     Author_id = table.Column<int>(type: "int", nullable: false),
                     Likes_id = table.Column<int>(type: "int", nullable: false),
-                    Comment_id = table.Column<int>(type: "int", nullable: false)
+                    LikesId = table.Column<int>(type: "int", nullable: false),
+                    Comment_id = table.Column<int>(type: "int", nullable: false),
+                    CommentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,28 +98,50 @@ namespace Date.Migrations
                         principalTable: "Authors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_Comments_CommentId",
+                        column: x => x.CommentId,
+                        principalTable: "Comments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_Likes_LikesId",
+                        column: x => x.LikesId,
+                        principalTable: "Likes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "Name", "Password", "Phone_Number", "Role" },
-                values: new object[] { 1, "xumorahacker@gmail.com", "Amirxon", "123456", "+998908376695", 2 });
+                columns: new[] { "Id", "Email", "IsVerified", "Name", "Password", "Phone_Number", "Role" },
+                values: new object[] { 1, "xumorahacker@gmail.com", false, "Amirxon", "123456", "+998908376695", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_AuthorId",
                 table: "Posts",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_CommentId",
+                table: "Posts",
+                column: "CommentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_LikesId",
+                table: "Posts",
+                column: "LikesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Comments");
-
-            migrationBuilder.DropTable(
-                name: "Likes");
-
             migrationBuilder.DropTable(
                 name: "Posts");
 
@@ -125,6 +150,12 @@ namespace Date.Migrations
 
             migrationBuilder.DropTable(
                 name: "Authors");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "Likes");
         }
     }
 }

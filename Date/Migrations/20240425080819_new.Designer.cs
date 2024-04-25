@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Date.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240425063357_new")]
+    [Migration("20240425080819_new")]
     partial class @new
     {
         /// <inheritdoc />
@@ -108,10 +108,16 @@ namespace Date.Migrations
                     b.Property<int>("Author_id")
                         .HasColumnType("int");
 
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Comment_id")
                         .HasColumnType("int");
 
                     b.Property<int>("Created")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LikesId")
                         .HasColumnType("int");
 
                     b.Property<int>("Likes_id")
@@ -129,6 +135,10 @@ namespace Date.Migrations
 
                     b.HasIndex("AuthorId");
 
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("LikesId");
+
                     b.ToTable("Posts");
                 });
 
@@ -142,7 +152,10 @@ namespace Date.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("IsVerified")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -161,6 +174,9 @@ namespace Date.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Users");
 
                     b.HasData(
@@ -168,6 +184,7 @@ namespace Date.Migrations
                         {
                             Id = 1,
                             Email = "xumorahacker@gmail.com",
+                            IsVerified = false,
                             Name = "Amirxon",
                             Password = "123456",
                             Phone_Number = "+998908376695",
@@ -183,7 +200,23 @@ namespace Date.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Domain.Entities.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Likes", "Likes")
+                        .WithMany()
+                        .HasForeignKey("LikesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Author");
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Likes");
                 });
 #pragma warning restore 612, 618
         }

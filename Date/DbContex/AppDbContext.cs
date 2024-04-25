@@ -15,8 +15,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasData(
-            new User
+
+        modelBuilder.Entity<User>()
+            .HasIndex(email => email.Email)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasData(new User()
             {
                 Id = 1,
                 Name = "Amirxon",   
@@ -25,5 +30,13 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
                 Phone_Number = "+998908376695",
                 Role = Roles.SuperAdmin
             });
+
+        modelBuilder.Entity<Post>()
+                    .HasMany(i => i.Comments)
+                    .WithOne(i => i.Post)
+                    .HasForeignKey(i => i.Post_id)
+                    .OnDelete(DeleteBehavior.ClientCascade);
+
+        base.OnModelCreating(modelBuilder);
     }
 }

@@ -8,4 +8,5 @@ public class User : BaseEntity
     public string Password { get; set; } = string.Empty;
     public string Phone_Number { get; set; } = string.Empty;
     public Roles Role { get; set; }
+    public bool IsVerified { get; set; } = false;
 }

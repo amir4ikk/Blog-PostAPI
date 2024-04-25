@@ -5,7 +5,9 @@ using Application.Interfaces;
 using Date.Interfaces;
 using Domain.Entities;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System.Net;
+using System.Xml.Linq;
 
 namespace Application.Services;
 public class PostService(IUnitOfWork unitOfWork,
@@ -33,49 +35,27 @@ public class PostService(IUnitOfWork unitOfWork,
 
     public async Task<List<PostDto>> GetAllAsync()
     {
-        var posts = await _unitOfWork.Post.GetAllAsync();
-        var authors = await _unitOfWork.Author.GetAllAsync();
-        var likes = await _unitOfWork.Likes.GetAllAsync();
-        var comments = await _unitOfWork.Comments.GetAllAsync();
+        //var posts = await _unitOfWork.Post.GetAllAsync();
+        //var authors = await _unitOfWork.Author.GetAllAsync();
 
-        var entities = new List<PostDto>();
+        //var entities = new List<PostDto>();
 
-        foreach (var post in posts)
-        {
-            var author = authors.First(p => p.Id == post?.Author_id);
-            var dto = (PostDto)post;
-            dto.Author = new Author()
-            {
-                Id = author.Id,
-                Name = author.Name,
-                Year = author.Year,
-            };
-            var like = likes.First(p => p.Id == post?.Likes_id);
-            var dto1 = (PostDto)post;
-            dto1.Likes = new Likes()
-            {
-                Id = like.Id,
-                Counter = 1,
-                Post_id = post.Id,
-                User_id = author.Id,
-            };
-            var comment = comments.First(p => p.Id == post?.Comment_id);
-            var dto2 = (PostDto)post;
-            dto2.Comment = new Comment()
-            {
-                Id = comment.Id,
-                CommenterName = comment.CommenterName,
-                Description = comment.Description,
-                Post_id= post.Id,
-                User_id= author.Id,
-            };
+        //foreach (var post in posts)
+        //{
+        //    var author = authors.First(p => p.Id == post?.Author_id);
+        //    var dto = (PostDto)post;
+        //    dto.Author = new Author()
+        //    {
+        //        Id = author.Id,
+        //        Name = author.Name,
+        //        Year = author.Year,
+        //    };
 
-            entities.Add(dto);
-            entities.Add(dto1);
-            entities.Add(dto2);
-        }
+        //    entities.Add(dto);
+        //}
 
-        return entities;
+        var posts = await _unitOfWork.Post.GetAllWithCommentsAsync();
+        return posts.Select(i => (PostDto)i).ToList();
     }
 
     public async Task<PostDto> GetByIdAsync(int id)

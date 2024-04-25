@@ -13,4 +13,11 @@ public class PostRepository(AppDbContext dbContext) : GenericRepository<Post>(db
 
         return posts.Where(p => p.Title.ToLower().Contains(name.ToLower())).ToList();
     }
+
+    public async Task<List<Post>> GetAllWithCommentsAsync()
+    {
+        var posts = await _dbContext.Posts.Include(i => i.Comments).ToListAsync();
+
+        return posts;
+    }
 }
