@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Date.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240425080819_new")]
-    partial class @new
+    [Migration("20240425174612_new23")]
+    partial class new23
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,11 +36,16 @@ namespace Date.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Post_id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Year")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Post_id");
 
                     b.ToTable("Authors");
                 });
@@ -69,6 +74,8 @@ namespace Date.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Post_id");
+
                     b.ToTable("Comments");
                 });
 
@@ -91,6 +98,8 @@ namespace Date.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Post_id");
+
                     b.ToTable("Likes");
                 });
 
@@ -102,22 +111,13 @@ namespace Date.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Author_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CommentId")
                         .HasColumnType("int");
 
                     b.Property<int>("Comment_id")
                         .HasColumnType("int");
 
                     b.Property<int>("Created")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LikesId")
                         .HasColumnType("int");
 
                     b.Property<int>("Likes_id")
@@ -132,12 +132,6 @@ namespace Date.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("LikesId");
 
                     b.ToTable("Posts");
                 });
@@ -192,29 +186,44 @@ namespace Date.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Entities.Author", b =>
+                {
+                    b.HasOne("Domain.Entities.Post", "Post")
+                        .WithMany("Author")
+                        .HasForeignKey("Post_id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Comment", b =>
+                {
+                    b.HasOne("Domain.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("Post_id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Likes", b =>
+                {
+                    b.HasOne("Domain.Entities.Post", "Post")
+                        .WithMany("Likes")
+                        .HasForeignKey("Post_id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
-                    b.HasOne("Domain.Entities.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Comment", "Comment")
-                        .WithMany()
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Likes", "Likes")
-                        .WithMany()
-                        .HasForeignKey("LikesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
 
-                    b.Navigation("Comment");
+                    b.Navigation("Comments");
 
                     b.Navigation("Likes");
                 });

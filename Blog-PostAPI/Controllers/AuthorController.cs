@@ -11,7 +11,7 @@ public class AuthorController(IAuthorService authorService) : ControllerBase
 {
     private readonly IAuthorService _authorService = authorService;
 
-    [HttpPost, Authorize(Roles = "Admin,SuperAdmin")]
+    [HttpPost,Authorize(Roles = "Admin,SuperAdmin")]
     public async Task<IActionResult> CreateAsync([FromForm] AddAuthorDto dto)
     {
         await _authorService.CreateAsync(dto);

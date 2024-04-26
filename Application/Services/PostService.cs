@@ -54,7 +54,7 @@ public class PostService(IUnitOfWork unitOfWork,
         //    entities.Add(dto);
         //}
 
-        var posts = await _unitOfWork.Post.GetAllWithCommentsAsync();
+        var posts = await _unitOfWork.Post.GetAllWithCommentsAndLikesAsync();
         return posts.Select(i => (PostDto)i).ToList();
     }
 
@@ -64,16 +64,7 @@ public class PostService(IUnitOfWork unitOfWork,
         if (post is null)
             throw new StatusCodeExeption(HttpStatusCode.NotFound, "Post topilmadi");
 
-        var author = await _unitOfWork.Author.GetByIdAsync(post.Author_id);
         var entity = (PostDto)post;
-
-
-        entity.Author = new Author()
-        {
-            Id = author.Id,
-            Name = author.Name,
-            Year = author.Year,
-        };
 
         return entity;
     }

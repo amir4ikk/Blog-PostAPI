@@ -12,7 +12,7 @@ public class CommentControllers(ICommentService commentService) : ControllerBase
 {
     private readonly ICommentService _commentService = commentService;
 
-    //[HttpPost, Authorize(Roles = "SuperAdmin,Admin")]
+    [HttpPost, Authorize(Roles = "SuperAdmin,Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromForm] AddCommentDto dto)
     {

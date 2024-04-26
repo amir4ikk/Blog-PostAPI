@@ -13,7 +13,7 @@ public class PostController(IPostService postService) : ControllerBase
     private readonly IPostService _postService = postService;
 
     [HttpPost]
-    //[Authorize(Roles = "SuperAdmin,Admin")]
+    [Authorize(Roles = "SuperAdmin,Admin")]
     public async Task<IActionResult> CreateAsync([FromForm]AddPostDto dto)
     {
         await _postService.CreateAsync(dto);
@@ -26,7 +26,7 @@ public class PostController(IPostService postService) : ControllerBase
     }
 
     [HttpGet("Post")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await _postService.GetAllAsync());

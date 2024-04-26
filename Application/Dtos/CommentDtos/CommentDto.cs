@@ -11,6 +11,7 @@ public class CommentDto : AddCommentDto
         return new CommentDto()
         {
             Id = author.Id,
+            CommenterName = author.CommenterName,
             Description = author.Description,
             Post_id = author.Post_id,
             User_id = author.User_id,
@@ -22,6 +23,7 @@ public class CommentDto : AddCommentDto
         return new Comment()
         {
             Id = dto.Id,
+            CommenterName = dto.CommenterName,
             Description = dto.Description,
             Post_id = dto.Post_id,
             User_id = dto.User_id,

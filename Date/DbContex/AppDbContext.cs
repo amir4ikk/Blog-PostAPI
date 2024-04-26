@@ -26,13 +26,25 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
                 Id = 1,
                 Name = "Amirxon",   
                 Email = "xumorahacker@gmail.com",
-                Password = "123456",
+                Password = "186cf774c97b60a1c106ef718d10970a6a06e06bef89553d9ae65d938a886eae",
                 Phone_Number = "+998908376695",
                 Role = Roles.SuperAdmin
             });
 
         modelBuilder.Entity<Post>()
                     .HasMany(i => i.Comments)
+                    .WithOne(i => i.Post)
+                    .HasForeignKey(i => i.Post_id)
+                    .OnDelete(DeleteBehavior.ClientCascade);
+
+        modelBuilder.Entity<Post>()
+                    .HasMany(i => i.Likes)
+                    .WithOne(i => i.Post)
+                    .HasForeignKey(i => i.Post_id)
+                    .OnDelete(DeleteBehavior.ClientCascade);
+
+        modelBuilder.Entity<Post>()
+                    .HasMany(i => i.Author)
                     .WithOne(i => i.Post)
                     .HasForeignKey(i => i.Post_id)
                     .OnDelete(DeleteBehavior.ClientCascade);

@@ -13,8 +13,8 @@ public class PostValidator : AbstractValidator<Post>
             .WithMessage("Title 3 va 40 belgi orasida bolishi kerak");
 
         RuleFor(x => x.Created)
-            .ExclusiveBetween(1970, DateTime.UtcNow.Year)
-            .WithMessage($"Year 1970 va {DateTime.UtcNow.Year} yil orasida bolishi kerak");
+            .ExclusiveBetween(2000, DateTime.UtcNow.Year)
+            .WithMessage($"Year 2000 va {DateTime.UtcNow.Year} yil orasida bolishi kerak");
 
         RuleFor(x => x.Author_id)
             .GreaterThan(0)

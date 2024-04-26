@@ -17,9 +17,6 @@ public class LikesService(IUnitOfWork unitOfWork,
 
     public async Task CreateAsync(AddLikesDto dto)
     {
-        var post = await _unitOfWork.Post.GetByIdAsync(dto.Post_id);
-        if (post != null)
-            throw new StatusCodeExeption(HttpStatusCode.AlreadyReported, "postga oldin like qoyilgan");
         var result = await _validator.ValidateAsync(dto);
         if (!result.IsValid)
             throw new ValidatorException(result.GetErrorMessages());
