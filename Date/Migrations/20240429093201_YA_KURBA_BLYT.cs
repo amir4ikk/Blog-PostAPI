@@ -5,7 +5,7 @@
 namespace Date.Migrations
 {
     /// <inheritdoc />
-    public partial class new23 : Migration
+    public partial class YA_KURBA_BLYT : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -110,7 +110,7 @@ namespace Date.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "IsVerified", "Name", "Password", "Phone_Number", "Role" },
-                values: new object[] { 1, "xumorahacker@gmail.com", false, "Amirxon", "123456", "+998908376695", 2 });
+                values: new object[] { 1, "xumorahacker@gmail.com", false, "Amirxon", "186cf774c97b60a1c106ef718d10970a6a06e06bef89553d9ae65d938a886eae", "+998908376695", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Authors_Post_id",

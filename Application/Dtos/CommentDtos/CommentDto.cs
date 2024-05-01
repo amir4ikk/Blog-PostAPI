@@ -1,5 +1,4 @@
-﻿using Application.Dtos.AuthorDtos;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Dtos.CommentDtos;
 public class CommentDto : AddCommentDto

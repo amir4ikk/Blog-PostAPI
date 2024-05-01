@@ -18,7 +18,7 @@ public class PostValidator : AbstractValidator<Post>
 
         RuleFor(x => x.Author_id)
             .GreaterThan(0)
-            .WithMessage("Authorid 0 bomasligi kerak");
+            .WithMessage("Author id 0 bomasligi kerak");
 
         RuleFor(x => x.Text)
             .NotEmpty()

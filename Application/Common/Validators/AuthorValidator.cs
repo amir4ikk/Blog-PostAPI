@@ -11,6 +11,7 @@ public class AuthorValidator : AbstractValidator<Author>
             .WithMessage("Name bolmasligi lozim")
             .Length(3, 50)
             .WithMessage("Name 3 va 50 orasida bolishi kerak");
+
         RuleFor(x => x.Year)
             .NotEmpty()
             .WithMessage("Year bosh bolmasligi lozim")

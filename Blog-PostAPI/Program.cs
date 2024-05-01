@@ -46,6 +46,7 @@ builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IAdminService, AdminService>();
 
 builder.Services.ConfigureJwtAuthorize(builder.Configuration);
 builder.Services.ConfigureSwaggerAuthorize(builder.Configuration);
@@ -66,6 +67,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

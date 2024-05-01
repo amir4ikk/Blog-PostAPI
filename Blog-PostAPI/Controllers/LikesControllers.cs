@@ -14,8 +14,7 @@ public class LikesControllers(ILikesService likesService) : ControllerBase
 {
     private readonly ILikesService _likesService = likesService;
 
-    [HttpPost, Authorize(Roles = "SuperAdmin,Admin")]
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<IActionResult> CreateAsync([FromForm] AddLikesDto dto)
     {
         await _likesService.CreateAsync(dto);
@@ -28,7 +27,7 @@ public class LikesControllers(ILikesService likesService) : ControllerBase
         return Ok(await _likesService.GetAllAsync());
     }
 
-    [HttpDelete("{id}"), Authorize(Roles = "SuperAdmin,Admin")]
+    [HttpDelete("{id}"), Authorize]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _likesService.DeleteAsync(id);

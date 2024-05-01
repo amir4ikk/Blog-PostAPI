@@ -9,16 +9,16 @@ public class UserValidator : AbstractValidator<User>
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage("Bosh bolmasligi lozim")
+            .WithMessage("あなたはクソビッチですか？")
             .Length(3, 50)
-            .WithMessage("First Name 3 va 50 orasida bolishi kerak");
+            .WithMessage("名は 3 ～ 50 の間で指定する必要があります");
 
         RuleFor(x => x.Email)
              .NotEmpty()
-             .WithMessage("Email bosh bolmasligi lozim")
+             .WithMessage("メールは送信してはいけません")
              .Length(3, 50)
              .EmailAddress()
-             .WithMessage("Email 3 va 50 orasida bolishi kerak");
+             .WithMessage("メールアドレスは 3 ～ 50 である必要があります");
 
         RuleFor(x => x.Password)
              .NotEmpty()
@@ -30,6 +30,6 @@ public class UserValidator : AbstractValidator<User>
             .NotEmpty()
             .WithMessage("Phone Number Bosh bolmasligi lozim")
             .Length(9, 12)
-            .WithMessage("Phone Number 9 va 12 orasida bolishi kerak");
+            .WithMessage("Phone Number 10 va 15 orasida bolishi kerak");
     }
 }

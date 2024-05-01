@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Date.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240425174612_new23")]
-    partial class new23
+    [Migration("20240429093201_YA_KURBA_BLYT")]
+    partial class YA_KURBA_BLYT
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -180,7 +180,7 @@ namespace Date.Migrations
                             Email = "xumorahacker@gmail.com",
                             IsVerified = false,
                             Name = "Amirxon",
-                            Password = "123456",
+                            Password = "186cf774c97b60a1c106ef718d10970a6a06e06bef89553d9ae65d938a886eae",
                             Phone_Number = "+998908376695",
                             Role = 2
                         });

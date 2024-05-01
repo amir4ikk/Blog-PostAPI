@@ -12,8 +12,7 @@ public class CommentControllers(ICommentService commentService) : ControllerBase
 {
     private readonly ICommentService _commentService = commentService;
 
-    [HttpPost, Authorize(Roles = "SuperAdmin,Admin")]
-    [HttpPost]
+    [HttpPost, Authorize]
     public async Task<IActionResult> CreateAsync([FromForm] AddCommentDto dto)
     {
         await _commentService.CreateAsync(dto);
@@ -32,7 +31,7 @@ public class CommentControllers(ICommentService commentService) : ControllerBase
         return Ok(await _commentService.GetByIdAsync(id));
     }
 
-    [HttpDelete("{id}"), Authorize(Roles = "SuperAdmin,Admin")]
+    [HttpDelete("{id}"), Authorize]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _commentService.DeleteAsync(id);
